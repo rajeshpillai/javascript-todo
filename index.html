@@ -1,0 +1,47 @@
+<!doctype HTML>
+<html>
+
+    <head>
+        <title>My awesome todo application</title>
+    </head>
+
+    <body>
+      <h2>Pee Pee Poo Poo</h2>
+
+      <h3>What do I want to do today?</h3>
+
+      <form method="POST">
+        <input id="todo" type="text" placeholder="my todo"/>
+
+        <button type="submit">Submit</button>
+
+        <ul id="todos">
+
+        </ul>
+
+      </form>
+
+      <script>
+        var todos = [
+          {task: 'Get the training done!'},
+          {task: 'Ensure everyone including me understands this'},
+          {task: 'Be happy'}
+        ];
+
+
+        var elem = document.getElementById('todos');
+        var html = "";
+
+        for(var i = 0; i < todos.length; i++) {
+          var todo = todos[i];
+
+          console.log("TODO: ", todo);
+
+
+        }
+
+
+      </script>
+
+    </body>
+</html>
