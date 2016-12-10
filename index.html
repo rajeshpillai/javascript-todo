@@ -10,10 +10,10 @@
 
       <h3>What do I want to do today?</h3>
 
-      <form method="POST">
+      <form>
         <input id="todo" type="text" placeholder="my todo"/>
 
-        <button type="submit">Submit</button>
+        <button onclick="addTodo()" type="button">Add Todo</button>
 
         <ul id="todos">
 
@@ -29,15 +29,30 @@
         ];
 
 
-        var elem = document.getElementById('todos');
-        var html = "";
-
-        for(var i = 0; i < todos.length; i++) {
-          var todo = todos[i];
-          html += "<li>" + todos[i].task + "</li>";
+        refreshUI();
+        
+        
+        function addTodo() {
+          var todo = document.getElementById('todo').value;
+          
+          todos.push({task: todo});
+          
+          console.log('TODOS: ', todos);
+          
+          refreshUI();
         }
+        
+        function refreshUI() {
+          var elem = document.getElementById('todos');
+          var html = "";
 
-        elem.innerHTML = html;
+          for(var i = 0; i < todos.length; i++) {
+            var todo = todos[i];
+            html += "<li>" + todos[i].task + "</li>";
+          }
+
+          elem.innerHTML = html;
+        }
 
       </script>
 
