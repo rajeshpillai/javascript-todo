@@ -5,7 +5,7 @@ Phase 1:
 --------------
 X Use Case 1:  Show all todos
 X Use Case 2:  Create a new todo
-Use Case 3:  Mark todo for completion
+X Use Case 3:  Mark todo for completion
 Use Case 4:  Delete a todo
 
 
