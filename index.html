@@ -25,9 +25,9 @@
 
       <script>
         var todos = [
-          {task: 'Get the training done!',status:true},
-          {task: 'Ensure everyone including me understands this',status:false},
-          {task: 'Be happy',status: false}
+          {id: 1, task: 'Get the training done!',status:true},
+          {id: 2, task: 'Ensure everyone including me understands this',status:false},
+          {id: 3, task: 'Be happy',status: false}
         ];
 
 
@@ -37,7 +37,7 @@
         function addTodo() {
           var todo = document.getElementById('todo').value;
           
-          todos.push({task: todo});
+          todos.push({id: todos.length+1, task: todo, status:false});
           
           console.log('TODOS: ', todos);
           
@@ -56,21 +56,40 @@
             var todo = todos[i];
             var style = "";
             
-            btnStatus = "<button type='button' onclick='toggleTodos()' class='btn'>Complete</button>";
+            btnStatus = "<button type='button' onclick='toggleTodos(this)' class='btn'>Complete</button>";
 
             if (todo.status === true) {
               style = "todo-completed";
-              btnStatus = "<button type='button' onclick='toggleTodos()' class='btn'>Undo</button>";
+              btnStatus = "<button type='button' onclick='toggleTodos(this)' class='btn'>Undo</button>";
             }  
             
-            html += "<li class=" + style + ">" + todos[i].task + btnStatus +  "</li>" ;
+            html += "<li id=" + todo.id + " class=" + style + ">" + todos[i].task + btnStatus +  "</li>" ;
           }
 
           elem.innerHTML = html;
         }
         
-        function toggleTodos() {
-          alert('hi');
+        function toggleTodos(el) {
+          //e.parentNode.className = "";
+          el.parentNode.classList.remove("todo-completed");
+          
+          var todoId = el.parentNode.id;
+          
+          var todo = {};
+          
+          for(var i = 0; i < todos.length; i++){
+            todo = todos[i];  
+            if (todo.id  == todoId) {
+              break;
+            }
+          }
+          
+          //alert(JSON.stringify(todo));
+          
+          todo.status = !todo.status;
+          
+          refreshUI();
+          
         }
 
       </script>
