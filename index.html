@@ -3,6 +3,8 @@
 
     <head>
         <title>My awesome todo application</title>
+        
+        <link href="css/site.css" rel="stylesheet"/>
     </head>
 
     <body>
@@ -23,9 +25,9 @@
 
       <script>
         var todos = [
-          {task: 'Get the training done!'},
-          {task: 'Ensure everyone including me understands this'},
-          {task: 'Be happy'}
+          {task: 'Get the training done!',status:true},
+          {task: 'Ensure everyone including me understands this',status:false},
+          {task: 'Be happy',status: false}
         ];
 
 
@@ -45,13 +47,30 @@
         function refreshUI() {
           var elem = document.getElementById('todos');
           var html = "";
-
+          
+          var btnText = 'Complete';
+          
+          var btnStatus = "";
+          
           for(var i = 0; i < todos.length; i++) {
             var todo = todos[i];
-            html += "<li>" + todos[i].task + "</li>";
+            var style = "";
+            
+            btnStatus = "<button type='button' onclick='toggleTodos()' class='btn'>Complete</button>";
+
+            if (todo.status === true) {
+              style = "todo-completed";
+              btnStatus = "<button type='button' onclick='toggleTodos()' class='btn'>Undo</button>";
+            }  
+            
+            html += "<li class=" + style + ">" + todos[i].task + btnStatus +  "</li>" ;
           }
 
           elem.innerHTML = html;
+        }
+        
+        function toggleTodos() {
+          alert('hi');
         }
 
       </script>
