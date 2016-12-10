@@ -34,18 +34,10 @@
 
         for(var i = 0; i < todos.length; i++) {
           var todo = todos[i];
-
-          html = "<li>" + todos[i].task + "</li>";
-          
-          var li = document.createElement("li");         
-          
-          var t = document.createTextNode(todo.task);      // Create a text node
-          li.appendChild(t); 
-          
-          elem.appendChild(li);
-          
+          html += "<li>" + todos[i].task + "</li>";
         }
 
+        elem.innerHTML = html;
 
       </script>
 
