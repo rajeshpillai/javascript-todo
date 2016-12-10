@@ -68,15 +68,17 @@ var myApp = {
 
     var todoId = el.parentNode.id;
 
-    var todoIndex;
+    var todoIndex = -1;
 
     for(var i = 0; i < this.todos.length; i++){
       todoIndex = i; 
-      if (todo.id  == todoId) {
+      
+      if (this.todos[i].id  == todoId) {
         break;
       }
     }
 
+    alert(todoIndex);
     this.todos.splice(todoIndex, 1);
 
 
