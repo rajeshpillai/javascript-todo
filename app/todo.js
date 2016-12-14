@@ -39,7 +39,7 @@ var myApp = {
   addTodo: function() {
     var todo = document.getElementById('todo').value;
 
-    this.todos.push({id: todos.length+1, task: todo, status:false});
+    this.todos.push({id: this.todos.length+1, task: todo, status:false});
 
     console.log('TODOS: ', this.todos);
 
@@ -78,7 +78,6 @@ var myApp = {
       }
     }
 
-    alert(todoIndex);
     this.todos.splice(todoIndex, 1);
 
 
@@ -91,4 +90,3 @@ myApp.refreshUI();
 
   
 
- 
