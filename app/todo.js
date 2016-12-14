@@ -9,9 +9,8 @@ var myApp = {
     var elem = document.getElementById('todos');
     var html = "";
 
-    console.log(this.todos.length);
     if (this.todos.length === 0) {
-        elem.innerHTML = "No todos yet! Be awesome and create some!!!";
+      elem.innerHTML = "No todos yet! Be awesome and create some!!!";
       return;
     }
     var btnText = 'Complete';
@@ -36,15 +35,44 @@ var myApp = {
 
     elem.innerHTML = html;
   },
-  addTodo: function() {
-    var todo = document.getElementById('todo').value;
+  
+  renderTodoItem: function (todo) {
+    var elem = document.getElementById('todos');
+    var html = "";
 
-    this.todos.push({id: this.todos.length+1, task: todo, status:false});
+    if (!todo) {
+      return;
+    }
 
-    console.log('TODOS: ', this.todos);
+    var btnText = 'Complete';
+    var btnStatus = "";
 
-    this.refreshUI();
+    var btnDelete = "<button type='button' onclick='myApp.removeTodo(this)' class='btn'>remove</button>";
+
+    var style = " ";
+
+    btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' class='btn'>complete</button>";
+
+    if (todo.status === true) {
+      style = "todo-completed";
+      btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' class='btn'>undo</button>";
+    }  
+
+    html = "<li id='" + todo.id + "'" + " class=" + style + ">" + todo.task + btnStatus + btnDelete +  "</li>" ;
+
+    elem.insertAdjacentHTML('beforeend', html);
+    
   },
+  
+  addTodo: function() {
+    var todoValue = document.getElementById('todo').value;
+
+    var todo = {id: this.todos.length+1, task: todoValue, status:false};
+    this.todos.push(todo);
+
+    this.renderTodoItem(todo);  // FIX: Only add the new node
+  },
+  
   toggleTodos: function(el) {
     //e.parentNode.className = "";
     el.parentNode.classList.remove("todo-completed");
@@ -61,8 +89,22 @@ var myApp = {
     }
 
     todo.status = !todo.status;
-    myApp.refreshUI();
+    
+    // FIX: Only update the specific element
+    this.toggleElementClass(el,todo.status);
+    
   },
+  
+  toggleElementClass: function (el, status) {
+    if (status) {
+      el.parentNode.classList.add("todo-completed");
+      el.innerText = "undo";
+    }else {
+      el.parentNode.classList.remove("todo-completed");
+      el.innerText = "complete";
+    }
+  },
+  
   removeTodo:  function(el) {
     el.parentNode.classList.remove("todo-completed");
 
@@ -79,11 +121,14 @@ var myApp = {
     }
 
     this.todos.splice(todoIndex, 1);
+    myApp.removeTodoItem(el.parentNode);  //FIX: only remove the deleted element
+  },
 
-
-    myApp.refreshUI();
-
+  removeTodoItem: function (li){
+    var elem = document.getElementById('todos');
+    elem.removeChild(li);
   }
+  
 };
 
 myApp.refreshUI();
