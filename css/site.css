@@ -1,7 +1,51 @@
 .todo-completed {
-  text-decoration:line-through;
+    text-decoration: line-through;
 }
 
 .btn {
-  display: inline;
+    display: inline;
 }
+
+li {
+    margin-bottom: 3px;
+}
+
+
+.mtop50 {
+    margin-top: 50px;
+}
+
+.well {
+    background: #FFF;
+}
+
+/*==========  Mobile First Method  ==========*/
+
+    /* Custom, iPhone Retina */
+    @media only screen and (min-width : 320px) {
+
+    }
+
+    /* Extra Small Devices, Phones */
+    @media only screen and (min-width : 480px) {
+
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) {
+
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) and (max-width : 1200px) {
+        body {
+            background: lawngreen;
+        }
+
+
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+
+    }

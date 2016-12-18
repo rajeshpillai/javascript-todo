@@ -17,20 +17,26 @@ var myApp = {
 
     var btnStatus = "";
 
-    var btnDelete = "<button type='button' onclick='myApp.removeTodo(this)' class='btn'>remove</button>";
-
-    for(var i = 0; i < this.todos.length; i++) {
-      var todo = this.todos[i];
-      var style = "";
-
-      btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' class='btn'>complete</button>";
-
-      if (todo.status === true) {
-        style = "todo-completed";
-        btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' class='btn'>undo</button>";
-      }  
-
-      html += "<li id=" + todo.id + " class=" + style + ">" + this.todos[i].task + btnStatus + btnDelete +  "</li>" ;
+    //var btnDelete = "<button type='button' onclick='myApp.removeTodo(this)' class='btn'>remove</button>";
+    var btnDelete = "<a type='button'  onclick='myApp.removeTodo(this)' data-toggle='tooltip'  " 
+      + "data-placement = 'top' title = 'Delete this todo' "
+      + "class='btn btn-xs btn-danger pull-right'><i class='glyphicon glyphicon-trash'></i></a>";
+    
+    
+    for (var i = 0; i < this.todos.length; i++) {
+        var todo = this.todos[i];
+        var style = "";
+        // alert(i);
+        btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' data-toggle='tooltip' " 
+          + " data-placement = 'top' title = 'Mark this as complete'  class='btn btn-xs btn-warning'>Complete</button>";
+        
+      if (todo.status == true) {
+            style = 'todo-completed';
+            btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' data-toggle='tooltip' " 
+                +" data-placement = 'top' title = 'Mark this as not-complete'  "
+                + " class='btn btn-xs btn-default '>Undo</button>";
+        }
+        html += "<li><span id=" + todo.id + " class=" + style + ">" + this.todos[i].task + "</span> " + btnStatus + btnDelete + "</li>";
     }
 
     elem.innerHTML = html;
@@ -47,19 +53,26 @@ var myApp = {
     var btnText = 'Complete';
     var btnStatus = "";
 
-    var btnDelete = "<button type='button' onclick='myApp.removeTodo(this)' class='btn'>remove</button>";
-
+    var btnDelete = "<a type='button'  onclick='myApp.removeTodo(this)' data-toggle='tooltip'  " 
+      + "data-placement = 'top' title = 'Delete this todo' "
+      + "class='btn btn-xs btn-danger pull-right'><i class='glyphicon glyphicon-trash'></i></a>";
+    
+    
     var style = " ";
 
-    btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' class='btn'>complete</button>";
-
+    btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' data-toggle='tooltip' " 
+          + " data-placement = 'top' title = 'Mark this as complete'  class='btn btn-xs btn-warning'>Complete</button>";
+    
     if (todo.status === true) {
       style = "todo-completed";
-      btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' class='btn'>undo</button>";
+      btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' data-toggle='tooltip' " 
+                +" data-placement = 'top' title = 'Mark this as not-complete'  "
+                + " class='btn btn-xs btn-default '>Undo</button>";
     }  
 
-    html = "<li id='" + todo.id + "'" + " class=" + style + ">" + todo.task + btnStatus + btnDelete +  "</li>" ;
-
+    html += "<li><span id=" + todo.id + " class=" + style + ">" + todo.task + "</span> " 
+        + btnStatus + btnDelete + "</li>";
+    
     elem.insertAdjacentHTML('beforeend', html);
     
   },

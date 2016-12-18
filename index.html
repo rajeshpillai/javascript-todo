@@ -4,25 +4,57 @@
     <head>
         <title>My awesome todo application</title>
         
+        <script src="lib/jquery.js"></script>
+        
+                <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
         <link href="css/site.css" rel="stylesheet"/>
     </head>
 
     <body>
-      <h2>Pee Pee Poo Poo</h2>
+     <div class="container mtop50">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2 well">
+              <h2>Tasky</h2>
 
       <h3>What do I want to do today?</h3>
 
       <form>
-        <input id="todo" type="text" placeholder="my todo"/>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group col-sm-10">
+              <input id="todo"
+              class="form-control col-sm-5" type="text" placeholder="my todo"/>
+      
+            </div>
+            <div class="form-group col-sm2">
+              <button type="button" onclick="myApp.addTodo()" type="button"
+              class="btn btn-md btn-info">Add Todo</button>
+      
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>My Todo List</h3>
+            <hr/>
+            <ul id="todos">
 
-        <button onclick="myApp.addTodo()" type="button">Add Todo</button>
-
-        <ul id="todos">
-
-        </ul>
-
+            </ul>
+          </div>
+        </div>
       </form>
-
+          </div>
+        </div>
+              
+     </div>
+     
       <script src="app/todo.js" type="application/javascript">  
 
       </script>
