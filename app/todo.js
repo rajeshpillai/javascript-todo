@@ -22,9 +22,10 @@ var myApp = {
       + "data-placement = 'top' title = 'Delete this todo' "
       + "class='btn btn-xs btn-danger pull-right'><i class='glyphicon glyphicon-trash'></i></a>";
     
+    var todo = {};
     
     for (var i = 0; i < this.todos.length; i++) {
-        var todo = this.todos[i];
+        todo = this.todos[i];
         var style = "";
         // alert(i);
         btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' data-toggle='tooltip' " 
@@ -34,9 +35,9 @@ var myApp = {
             style = 'todo-completed';
             btnStatus = "<button type='button' onclick='myApp.toggleTodos(this)' data-toggle='tooltip' " 
                 +" data-placement = 'top' title = 'Mark this as not-complete'  "
-                + " class='btn btn-xs btn-default '>Undo</button>";
+                + " class='btn btn-xs btn-warning '>Undo</button>";
         }
-        html += "<li><span id=" + todo.id + " class=" + style + ">" + this.todos[i].task + "</span> " + btnStatus + btnDelete + "</li>";
+        html += "<li><span id=" + todo.id + " class=" + style + ">" + todo.task + "</span> " + btnStatus + btnDelete + "</li>";
     }
 
     elem.innerHTML = html;
@@ -90,17 +91,20 @@ var myApp = {
     //e.parentNode.className = "";
     el.parentNode.classList.remove("todo-completed");
 
-    var todoId = el.parentNode.id;
+    //var todoId = el.parentNode.id;   // This will point to <li>
+    
+    var todoId = el.parentNode.childNodes[0].id;  // we need the <span>
 
     var todo = {};
 
-    for(var i = 0; i < this.todos.length; i++){
-      todo = this.todos[i];  
-      if (todo.id  == todoId) {
-        break;
-      }
-    }
+    console.log(el.parentNode);
+    
 
+    todo = this.todos.filter(function (item){
+      console.log(item);
+      return item.id == todoId;
+    })[0];   // filter will return and array always, so we need to grab the first element.
+    
     todo.status = !todo.status;
     
     // FIX: Only update the specific element
@@ -110,10 +114,10 @@ var myApp = {
   
   toggleElementClass: function (el, status) {
     if (status) {
-      el.parentNode.classList.add("todo-completed");
+      el.parentNode.childNodes[0].classList.add("todo-completed");
       el.innerText = "undo";
     }else {
-      el.parentNode.classList.remove("todo-completed");
+      el.parentNode.childNodes[0].classList.remove("todo-completed");
       el.innerText = "complete";
     }
   },
