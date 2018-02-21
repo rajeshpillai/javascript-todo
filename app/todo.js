@@ -27,19 +27,19 @@ var myApp = {
 
     for(var i = 0; i < state.todos.length; i++) {
       let todo = state.todos[i];
-      let style = "";
+      let todoItemStyle = "";
       btnStatus = `<button type='button' onclick='myApp.toggleTodos(this)' 
           class='btn'>complete</button>`;
 
       if (todo.status === true) {
-        style = "todo-completed";
+        todoItemStyle = "todo-completed";
         btnStatus = `<button type='button' onclick='myApp.toggleTodos(this)' 
                      class='btn'>undo</button>`;
       }  
       //html += "<li id=" + todo.id + " class=" + style + ">" + this.todos[i].task + btnStatus + btnDelete +  "</li>" ;
       
       html += `
-        <li id=${todo.id} class=${style}>
+        <li id=${todo.id} class=${todoItemStyle}>
           ${state.todos[i].task}${btnStatus}${btnDelete}
         </li>
       `;
