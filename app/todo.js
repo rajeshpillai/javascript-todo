@@ -27,16 +27,17 @@ var todoApp = {
     for(var i = 0; i < state.todos.length; i++) {
       let todo = state.todos[i];
       let todoItemStyle = "";
-      btnUndoRedo = `<button type='button' onclick='todoApp.toggleTodos(this)' 
-          class='btn'>complete</button>`;
+      let buttonUndoRedoText = "complete";
 
       if (todo.status === true) {
         todoItemStyle = "todo-completed";
-        btnUndoRedo = `<button type='button' onclick='todoApp.toggleTodos(this)' 
-                     class='btn'>undo</button>`;
+        buttonUndoRedoText = "undo";
       }  
       //html += "<li id=" + todo.id + " class=" + style + ">" + this.todos[i].task + btnStatus + btnDelete +  "</li>" ;
       
+      btnUndoRedo = `<button type='button' onclick='todoApp.toggleTodos(this)' 
+          class='btn'>${buttonUndoRedoText}</button>`;
+
       html += `
         <li id=${todo.id} class=${todoItemStyle}>
           ${state.todos[i].task}${btnUndoRedo}${btnDelete}
