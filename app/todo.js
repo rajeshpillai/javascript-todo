@@ -7,12 +7,11 @@ var state = {
 };
 
 var todoInput = document.getElementById('todo');
-  
-var myApp = {
-  render : function () {
-    var elem = document.getElementById('todos');
-    var html = "";
+var todoList = document.getElementById('todos');  
 
+var todoApp = {
+  render : function () {
+    var html = "";
     console.log(state.todos.length);
     if (state.todos.length === 0) {
         elem.innerHTML = "No todos yet! Be awesome and create some!!!";
@@ -22,18 +21,18 @@ var myApp = {
 
     var btnStatus = "";
 
-    var btnDelete = `<button type='button' onclick='myApp.removeTodo(this)' 
+    var btnDelete = `<button type='button' onclick='todoApp.removeTodo(this)' 
           class='btn'>remove</button>`;
 
     for(var i = 0; i < state.todos.length; i++) {
       let todo = state.todos[i];
       let todoItemStyle = "";
-      btnStatus = `<button type='button' onclick='myApp.toggleTodos(this)' 
+      btnStatus = `<button type='button' onclick='todoApp.toggleTodos(this)' 
           class='btn'>complete</button>`;
 
       if (todo.status === true) {
         todoItemStyle = "todo-completed";
-        btnStatus = `<button type='button' onclick='myApp.toggleTodos(this)' 
+        btnStatus = `<button type='button' onclick='todoApp.toggleTodos(this)' 
                      class='btn'>undo</button>`;
       }  
       //html += "<li id=" + todo.id + " class=" + style + ">" + this.todos[i].task + btnStatus + btnDelete +  "</li>" ;
@@ -45,7 +44,7 @@ var myApp = {
       `;
     }
 
-    elem.innerHTML = html;
+    todoList.innerHTML = html;
   },
 
   addTodo: function() {
@@ -61,9 +60,6 @@ var myApp = {
   },
 
   toggleTodos: function(el) {
-    //e.parentNode.className = "";
-    el.parentNode.classList.remove("todo-completed");
-
     var todoId = el.parentNode.id;
 
     var todo = {};
@@ -84,7 +80,7 @@ var myApp = {
 
     state.todos = [...todos];
 
-    myApp.render();
+    todoApp.render();
   },
   removeTodo:  function(el) {
     el.parentNode.classList.remove("todo-completed");
@@ -107,11 +103,11 @@ var myApp = {
 
     state.todos = [...todos];
 
-    myApp.render();
+    todoApp.render();
   }
 };
 
-myApp.render();
+todoApp.render();
 
   
 

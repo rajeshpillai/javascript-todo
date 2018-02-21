@@ -1,8 +1,12 @@
+body {
+  background-color: #FAFAFA;
+}
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #FAFAFA;
 }
 
 .todo-header {
@@ -17,6 +21,7 @@
 #todos {
   border: 1px solid gray;
   padding:15px;
+  background-color: rgb(226, 224, 224);
 }
 
 #todos li {
