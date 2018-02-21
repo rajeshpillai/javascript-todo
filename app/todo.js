@@ -5,6 +5,8 @@ var state = {
     {id: 3, task: 'Be happy',status: false}
   ]
 };
+
+var todoInput = document.getElementById('todo');
   
 var myApp = {
   render : function () {
@@ -45,13 +47,19 @@ var myApp = {
 
     elem.innerHTML = html;
   },
+
   addTodo: function() {
-    var todo = document.getElementById('todo').value;
-    state.todos.push({id: state.todos.length+1, task: todo, status:false});
-    
-    console.log('TODOS: ', this.todos);
+    var todo = todoInput.value;
+    var newTodo = {
+      id: state.todos.length + 1,
+      task: todo,
+      status: false
+    }
+    //state.todos.push({id: state.todos.length+1, task: todo, status:false});
+    state.todos = [...state.todos, newTodo];
     this.render();
   },
+
   toggleTodos: function(el) {
     //e.parentNode.className = "";
     el.parentNode.classList.remove("todo-completed");
@@ -60,14 +68,22 @@ var myApp = {
 
     var todo = {};
 
-    for(var i = 0; i < state.todos.length; i++){
-      todo = state.todos[i];  
-      if (todo.id  == todoId) {
-        break;
+    // for(var i = 0; i < state.todos.length; i++){
+    //   todo = state.todos[i];  
+    //   if (todo.id  == todoId) {
+    //     break;
+    //   }
+    // }
+    // todo.status = !todo.status;
+    var todos = state.todos.map((todo) => {
+      if (todo.id == todoId) {
+        todo.status = !todo.status;
       }
-    }
+      return todo;
+    });
 
-    todo.status = !todo.status;
+    state.todos = [...todos];
+
     myApp.render();
   },
   removeTodo:  function(el) {
@@ -77,13 +93,20 @@ var myApp = {
 
     var todoIndex = -1;
 
-    for(var i = 0; i < state.todos.length; i++){
-      todoIndex = i; 
-      if (state.todos[i].id  == todoId) {
-        break;
-      }
-    }
-    state.todos.splice(todoIndex, 1);
+    // for(var i = 0; i < state.todos.length; i++){
+    //   todoIndex = i; 
+    //   if (state.todos[i].id  == todoId) {
+    //     break;
+    //   }
+    // }
+    // state.todos.splice(todoIndex, 1);
+
+    var todos = state.todos.filter((todo) => {
+      return todo.id != todoId;
+    });
+
+    state.todos = [...todos];
+
     myApp.render();
   }
 };
