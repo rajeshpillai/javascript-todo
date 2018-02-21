@@ -11,17 +11,17 @@ var todoList = document.getElementById('todos');
 
 var todoApp = {
   render : function () {
-    var html = "";
+    let html = "";
     console.log(state.todos.length);
     if (state.todos.length === 0) {
         elem.innerHTML = "No todos yet! Be awesome and create some!!!";
       return;
     }
-    var btnText = 'Complete';
+    let btnText = 'Complete';
 
-    var btnStatus = "";
+    let btnStatus = "";
 
-    var btnDelete = `<button type='button' onclick='todoApp.removeTodo(this)' 
+    let btnDelete = `<button type='button' onclick='todoApp.removeTodo(this)' 
           class='btn'>remove</button>`;
 
     for(var i = 0; i < state.todos.length; i++) {
@@ -48,8 +48,8 @@ var todoApp = {
   },
 
   addTodo: function() {
-    var todo = todoInput.value;
-    var newTodo = {
+    let todo = todoInput.value;
+    let newTodo = {
       id: state.todos.length + 1,
       task: todo,
       status: false
@@ -60,9 +60,9 @@ var todoApp = {
   },
 
   toggleTodos: function(el) {
-    var todoId = el.parentNode.id;
+    let todoId = el.parentNode.id;
 
-    var todo = {};
+    let todo = {};
 
     // for(var i = 0; i < state.todos.length; i++){
     //   todo = state.todos[i];  
@@ -71,7 +71,7 @@ var todoApp = {
     //   }
     // }
     // todo.status = !todo.status;
-    var todos = state.todos.map((todo) => {
+    let todos = state.todos.map((todo) => {
       if (todo.id == todoId) {
         todo.status = !todo.status;
       }
@@ -85,9 +85,7 @@ var todoApp = {
   removeTodo:  function(el) {
     el.parentNode.classList.remove("todo-completed");
 
-    var todoId = el.parentNode.id;
-
-    var todoIndex = -1;
+    let todoId = el.parentNode.id;
 
     // for(var i = 0; i < state.todos.length; i++){
     //   todoIndex = i; 
@@ -97,7 +95,7 @@ var todoApp = {
     // }
     // state.todos.splice(todoIndex, 1);
 
-    var todos = state.todos.filter((todo) => {
+    let todos = state.todos.filter((todo) => {
       return todo.id != todoId;
     });
 
