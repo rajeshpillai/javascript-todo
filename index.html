@@ -1,31 +1,29 @@
 <!doctype HTML>
 <html>
-
     <head>
         <title>My awesome todo application</title>
-        
         <link href="css/site.css" rel="stylesheet"/>
     </head>
 
     <body>
-      <h2>Pee Pee Poo Poo</h2>
-
-      <h3>What do I want to do today?</h3>
-
-      <form>
-        <input id="todo" type="text" placeholder="my todo"/>
-
-        <button onclick="myApp.addTodo()" type="button">Add Todo</button>
-
-        <ul id="todos">
-
-        </ul>
-
-      </form>
+      <div class="container">
+        <div class="row">
+          <h2 class="todo-header">Simple Todo App</h2>
+          <h3>What do I want to do today?</h3>
+        </div>
+        <div class="row">
+          <form>
+            <input id="todo" type="text" placeholder="my todo"/>
+            <button onclick="myApp.addTodo()" type="button">Add Todo</button>
+          </form>
+        </div>
+        <div class="row">
+            <ul id="todos">
+            </ul>
+        </div>
+      </div>
 
       <script src="app/todo.js" type="application/javascript">  
-
       </script>
-
     </body>
 </html>
