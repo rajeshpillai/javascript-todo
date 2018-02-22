@@ -1,112 +1,145 @@
 var state = {
   todos: [
-    {id: 1, task: 'Get the training done!',status:true},
-    {id: 2, task: 'Ensure everyone including me understands this',status:false},
-    {id: 3, task: 'Be happy',status: false}
-  ]
+      {id: 1, task: 'Get the training done!',status:true, edit: false},
+      {id: 2, task: 'Ensure everyone including me understands this',status:false, edit:false},
+      {id: 3, task: 'Be happy',status: false, edit: false}
+    ] 
 };
 
-var todoInput = document.getElementById('todo');
-var todoList = document.getElementById('todos');  
+var todoInput = document.getElementById("todo");
+var todoList = document.getElementById("todos");
 
 var todoApp = {
-  render : function () {
-    let html = "";
-    console.log(state.todos.length);
-    if (state.todos.length === 0) {
-        elem.innerHTML = "No todos yet! Be awesome and create some!!!";
-      return;
-    }
-    let btnText = 'Complete';
+  addTodo: function () {
+      let todo = todoInput.value;
+      let newTodo = {
+          id: state.todos.length + 1,  // This should come from the database
+          task: todo,
+          status: false
+      };
 
-    let btnUndoRedo = "";
+      //state.todos.push(newTodo);
+      state.todos = [...state.todos, newTodo];
+      this.render();
+  },
 
-    let btnDelete = `<button type='button' onclick='todoApp.removeTodo(this)' 
-          class='btn'>remove</button>`;
+  _findTodo: function (todoId) {
+      let todo = state.todos.find((todo) => {
+          return (todo.id == todoId);
+      });
 
-    for(var i = 0; i < state.todos.length; i++) {
-      let todo = state.todos[i];
+      return todo;
+
+  },
+  toggleTodos: function (el) {
+      let todoId = el.parentNode.id;
+
+      let todos = state.todos.map((todo) => {
+          if (todo.id == todoId) {
+              todo.status = !todo.status;
+          }
+          return todo;
+      });
+
+      state.todos = [...todos];
+      this.render();
+  },
+
+  toggleEditEvent: function () {
+      let todoId = event.target.id;
+      this.toggleEdit(event.target, todoId);
+
+  },
+  toggleEdit: function (target, todoId) {
+      let todo = this._findTodo(todoId);
+      todo.edit = !todo.edit;
+      this.renderFragment(target,todo);
+  },
+  removeTodo: function (el) {
+      let todoId = el.parentNode.id;
+      let todos = state.todos.filter((todo) => {
+         return todo.id != todoId;
+      });
+
+      state.todos = [...todos];
+
+      this.render();
+
+  },
+  renderFragment: function (el, todo) {
+      el.outerHTML = this.renderItem(todo);
+  },
+
+  renderItem: function (todoItem) {
+      let html = "";
+
+      let btnText = "complete";
+      let bntUndoRedo = "";
+      let btnDelete = `
+          <button type='button' 
+              onclick='todoApp.removeTodo(this)' 
+              class='btn'>remove
+          </button>
+      `;
+
       let todoItemStyle = "";
       let buttonUndoRedoText = "complete";
 
-      if (todo.status === true) {
-        todoItemStyle = "todo-completed";
-        buttonUndoRedoText = "undo";
-      }  
-      //html += "<li id=" + todo.id + " class=" + style + ">" + this.todos[i].task + btnStatus + btnDelete +  "</li>" ;
-      
-      btnUndoRedo = `<button type='button' onclick='todoApp.toggleTodos(this)' 
-          class='btn'>${buttonUndoRedoText}</button>`;
-
-      html += `
-        <li id=${todo.id} class=${todoItemStyle}>
-          ${state.todos[i].task}${btnUndoRedo}${btnDelete}
-        </li>
-      `;
-    }
-
-    todoList.innerHTML = html;
-  },
-
-  addTodo: function() {
-    let todo = todoInput.value;
-    let newTodo = {
-      id: state.todos.length + 1,
-      task: todo,
-      status: false
-    }
-    //state.todos.push({id: state.todos.length+1, task: todo, status:false});
-    state.todos = [...state.todos, newTodo];
-    this.render();
-  },
-
-  toggleTodos: function(el) {
-    let todoId = el.parentNode.id;
-
-    let todo = {};
-
-    // for(var i = 0; i < state.todos.length; i++){
-    //   todo = state.todos[i];  
-    //   if (todo.id  == todoId) {
-    //     break;
-    //   }
-    // }
-    // todo.status = !todo.status;
-    let todos = state.todos.map((todo) => {
-      if (todo.id == todoId) {
-        todo.status = !todo.status;
+      if (todoItem.status === true) {
+          todoItemStyle = "todo-completed";
+          buttonUndoRedoText = "undo";
       }
-      return todo;
-    });
 
-    state.todos = [...todos];
+      // Use Backtick-> found near <esc> key on most keyboards
+      btnUndoRedo = `
+          <button type='button' onclick='todoApp.toggleTodos(this)' 
+                  class='btn'>${buttonUndoRedoText}</button>`;
 
-    todoApp.render();
+      html = `
+      <li id=${todoItem.id} class=${todoItemStyle}>
+          ${todoItem.task} ${btnUndoRedo}${btnDelete}
+          </li>
+      `;
+
+      if (todoItem.edit) {
+          //let eventH = "todoApp._onUpdate(event," + todoItem.id + ")";
+          html = `
+              <li id=${todoItem.id} class=${todoItemStyle}>
+                  <input onkeyup="todoApp._onUpdate(event, ${todoItem.id})" 
+                      type="text" 
+                      value='${todoItem.task}' />${btnUndoRedo}${btnDelete}
+                  </li>
+              `;
+      }
+
+      return html;
   },
-  removeTodo:  function(el) {
-    el.parentNode.classList.remove("todo-completed");
 
-    let todoId = el.parentNode.id;
+  _onUpdate: function (event, todoId) {
+    console.log("update: ", event, todoId);
+    if (event.which == 27) {  // escape key
+      this.toggleEdit(event.target.parentNode, todoId);
+    } else if (event.which == 13) { //enter key
+      let todo = this._findTodo(todoId);
+      todo.task = event.target.value; // todo: Mutating the state. Not a good practice.
+      this.toggleEdit(event.target.parentNode, todoId);
+    }
 
-    // for(var i = 0; i < state.todos.length; i++){
-    //   todoIndex = i; 
-    //   if (state.todos[i].id  == todoId) {
-    //     break;
-    //   }
-    // }
-    // state.todos.splice(todoIndex, 1);
+    console.log(state.todos);
+  },
 
-    let todos = state.todos.filter((todo) => {
-      return todo.id != todoId;
-    });
+  render: function () {
+      let html = "";
 
-    state.todos = [...todos];
-
-    todoApp.render();
+      if (state.todos.length === 0) {
+          todoList.innerHTML = "No todos yet! Be awesome and create some todos!!";
+          return;
+      }
+      for (let i = 0;i < state.todos.length; i++) {
+          html += this.renderItem(state.todos[i]);
+      }
+      todoList.innerHTML = html;
   }
 };
 
 todoApp.render();
-
-  
-

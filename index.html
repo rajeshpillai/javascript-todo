@@ -4,7 +4,6 @@
         <title>My awesome todo application</title>
         <link href="css/site.css" rel="stylesheet"/>
     </head>
-
     <body>
       <div class="container">
         <div class="row">
@@ -18,11 +17,10 @@
           </form>
         </div>
         <div class="row">
-            <ul id="todos">
+            <ul id="todos" ondblclick="todoApp.toggleEditEvent()">
             </ul>
         </div>
       </div>
-
       <script src="app/todo.js" type="application/javascript">  
       </script>
     </body>
