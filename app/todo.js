@@ -62,7 +62,7 @@ var todoApp = {
   },
 
   toggleTodos: function (el) {
-      let todoId = el.parentNode.id;
+      let todoId = el.parentNode.id; // Here 'el' is button.  The parent is the <li> element.
       let todo = todoService.toggleComplete(todoId);
       this.renderFragment(el.parentNode, todo);
   },
@@ -100,6 +100,7 @@ var todoApp = {
       el.outerHTML = this.getItemView(todo);
   },
 
+  // get html view of one model item.
   getItemView: function (todoItem) {
       let html = "";
 
@@ -123,22 +124,26 @@ var todoApp = {
       // Use Backtick-> found near <esc> key on most keyboards
       btnUndoRedo = `
           <button type='button' onclick='todoApp.toggleTodos(this)' 
-                  class='btn'>${buttonUndoRedoText}</button>`;
+                  class='btn'>${buttonUndoRedoText}
+          </button>
+      `;
 
       html = `
-      <li id=${todoItem.id} class=${todoItemStyle}>
-          ${todoItem.task} ${btnUndoRedo}${btnDelete}
-          </li>
+        <li id=${todoItem.id} class=${todoItemStyle}>
+            ${todoItem.task} ${btnUndoRedo}${btnDelete}
+        </li>
       `;
 
       if (todoItem.edit) {
           html = `
               <li id=${todoItem.id} class=${todoItemStyle}>
-                  <input onkeyup="todoApp.onUpdateTodo(event, ${todoItem.id})" 
-                      type="text" 
-                      value='${todoItem.task}' />${btnUndoRedo}${btnDelete}
-                  </li>
-              `;
+                <input onkeyup="todoApp.onUpdateTodo(event, ${todoItem.id})" 
+                    type="text" 
+                    value='${todoItem.task}' />
+                    ${btnUndoRedo}
+                    ${btnDelete}
+             </li>
+          `;
       }
       return html;
   },
