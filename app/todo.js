@@ -6,6 +6,15 @@ var state = {
     ] 
 };
 
+var todoService = {
+    findTodo: function (todoId) {
+        let todo = state.todos.find((todo) => {
+            return (todo.id == todoId);
+        });
+        return todo;
+    }
+}
+
 var todoInput = document.getElementById("todo");
 var todoList = document.getElementById("todos");
 
@@ -23,14 +32,6 @@ var todoApp = {
       this.render();
   },
 
-  _findTodo: function (todoId) {
-      let todo = state.todos.find((todo) => {
-          return (todo.id == todoId);
-      });
-
-      return todo;
-
-  },
   toggleTodos: function (el) {
       let todoId = el.parentNode.id;
 
@@ -46,12 +47,14 @@ var todoApp = {
   },
 
   toggleEditEvent: function () {
+      console.log(event);
+      if (event.target.tagName.toLowerCase() !== "li") return;
       let todoId = event.target.id;
       this.toggleEdit(event.target, todoId);
 
   },
   toggleEdit: function (target, todoId) {
-      let todo = this._findTodo(todoId);
+      let todo = todoService.findTodo(todoId);
       todo.edit = !todo.edit;
       this.renderFragment(target,todo);
   },
@@ -120,7 +123,7 @@ var todoApp = {
     if (event.which == 27) {  // escape key
       this.toggleEdit(event.target.parentNode, todoId);
     } else if (event.which == 13) { //enter key
-      let todo = this._findTodo(todoId);
+      let todo = todoService.findTodo(todoId);
       todo.task = event.target.value; // todo: Mutating the state. Not a good practice.
       this.toggleEdit(event.target.parentNode, todoId);
     }
