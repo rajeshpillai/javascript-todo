@@ -7,6 +7,9 @@ var state = {
 };
 
 var todoService = {
+    getAll: function () {
+        return state.todos;
+    },
     addTodo: function (newTodo) {
         newTodo.id = state.todos.length + 1;
         state.todos = [...state.todos, newTodo];
@@ -161,12 +164,14 @@ var todoApp = {
 
   render: function () {
       let html = "";
-      if (state.todos.length === 0) {
+      let todos = todoService.getAll();
+
+      if (todos.length === 0) {
           todoList.innerHTML = "No todos yet! Be awesome and create some todos!!";
           return;
       }
-      for (let i = 0;i < state.todos.length; i++) {
-          html += this.getItemView(state.todos[i]);
+      for (let i = 0;i < todos.length; i++) {
+          html += this.getItemView(todos[i]);
       }
       todoList.innerHTML = html;
   }
