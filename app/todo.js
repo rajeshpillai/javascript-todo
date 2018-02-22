@@ -46,12 +46,12 @@ var todoApp = {
       this.render();
   },
 
-  // render one element
+  // Render an updated fragment
   renderFragment: function (el, todo) {
       el.outerHTML = this.getItemView(todo);
   },
 
-  // get html view of one model item.
+  // Get html view of single model instance.
   getItemView: function (todoItem) {
       let html = "";
 
@@ -99,17 +99,20 @@ var todoApp = {
       return html;
   },
 
+  // Takes html string->DOM element
   parseHtml: function (html) {
     var t = document.createElement('template');
     t.innerHTML = html;
     return t.content.cloneNode(true);
   },
 
+  // Takes model->append to parent view
   renderItem: function (todo) {
     var itemView = this.parseHtml(this.getItemView(todo));
     todoList.appendChild(itemView);
   },
 
+  // Full render
   render: function () {
       let html = "";
       let todos = todoService.getAll();
