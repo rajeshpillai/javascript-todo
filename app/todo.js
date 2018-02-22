@@ -11,6 +11,10 @@ var todoService = {
         newTodo.id = state.todos.length + 1;
         state.todos = [...state.todos, newTodo];
     },
+    updateTodo: function (todoId, value) {
+        let todo = todoService.findTodo(todoId);
+        todo.task = value; // todo: Mutating the state. Not a good practice.
+    },
     findTodo: function (todoId) {
         let todo = state.todos.find((todo) => {
             return (todo.id == todoId);
@@ -52,7 +56,6 @@ var todoApp = {
       todoService.addTodo(newTodo);
       this.render();
   },
-
   toggleTodos: function (el) {
       let todoId = el.parentNode.id;
       todoService.toggleComplete(todoId);
@@ -112,10 +115,9 @@ var todoApp = {
       `;
 
       if (todoItem.edit) {
-          //let eventH = "todoApp._onUpdate(event," + todoItem.id + ")";
           html = `
               <li id=${todoItem.id} class=${todoItemStyle}>
-                  <input onkeyup="todoApp._onUpdate(event, ${todoItem.id})" 
+                  <input onkeyup="todoApp.onUpdateTodo(event, ${todoItem.id})" 
                       type="text" 
                       value='${todoItem.task}' />${btnUndoRedo}${btnDelete}
                   </li>
@@ -125,17 +127,13 @@ var todoApp = {
       return html;
   },
 
-  _onUpdate: function (event, todoId) {
-    console.log("update: ", event, todoId);
+  onUpdateTodo: function (event, todoId) {
     if (event.which == 27) {  // escape key
       this.toggleEdit(event.target.parentNode, todoId);
     } else if (event.which == 13) { //enter key
-      let todo = todoService.findTodo(todoId);
-      todo.task = event.target.value; // todo: Mutating the state. Not a good practice.
+      todoService.updateTodo(todoId, event.target.value);
       this.toggleEdit(event.target.parentNode, todoId);
     }
-
-    console.log(state.todos);
   },
 
   render: function () {
