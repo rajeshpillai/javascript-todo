@@ -12,6 +12,26 @@ var todoService = {
             return (todo.id == todoId);
         });
         return todo;
+    },
+    removeTodo: function (todoId) {
+        let todos = state.todos.filter((todo) => {
+           return todo.id != todoId;
+        });
+        state.todos = [...todos];
+    },
+    toggleEdit: function (todoId) {
+        let todo = todoService.findTodo(todoId);
+        todo.edit = !todo.edit;
+        return todo;
+    },
+    toggleComplete: function (todoId) {
+        let todos = state.todos.map((todo) => {
+            if (todo.id == todoId) {
+                todo.status = !todo.status;
+            }
+            return todo;
+        });
+        state.todos = [...todos];
     }
 }
 
@@ -34,15 +54,7 @@ var todoApp = {
 
   toggleTodos: function (el) {
       let todoId = el.parentNode.id;
-
-      let todos = state.todos.map((todo) => {
-          if (todo.id == todoId) {
-              todo.status = !todo.status;
-          }
-          return todo;
-      });
-
-      state.todos = [...todos];
+      todoService.toggleComplete(todoId);
       this.render();
   },
 
@@ -54,20 +66,14 @@ var todoApp = {
 
   },
   toggleEdit: function (target, todoId) {
-      let todo = todoService.findTodo(todoId);
-      todo.edit = !todo.edit;
+      let todo = todoService.toggleEdit(todoId);
       this.renderFragment(target,todo);
   },
+  
   removeTodo: function (el) {
       let todoId = el.parentNode.id;
-      let todos = state.todos.filter((todo) => {
-         return todo.id != todoId;
-      });
-
-      state.todos = [...todos];
-
+      todoService.removeTodo(todoId);
       this.render();
-
   },
   renderFragment: function (el, todo) {
       el.outerHTML = this.renderItem(todo);
