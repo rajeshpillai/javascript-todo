@@ -54,8 +54,9 @@ var todoApp = {
           status: false
       };
       todoService.addTodo(newTodo);
-      this.render();
+      this.renderItem(newTodo);
   },
+
   toggleTodos: function (el) {
       let todoId = el.parentNode.id;
       todoService.toggleComplete(todoId);
@@ -69,21 +70,33 @@ var todoApp = {
       this.toggleEdit(event.target, todoId);
 
   },
+
   toggleEdit: function (target, todoId) {
       let todo = todoService.toggleEdit(todoId);
       this.renderFragment(target,todo);
   },
-  
+
+  onUpdateTodo: function (event, todoId) {
+    if (event.which == 27) {  // escape key
+      this.toggleEdit(event.target.parentNode, todoId);
+    } else if (event.which == 13) { //enter key
+      todoService.updateTodo(todoId, event.target.value);
+      this.toggleEdit(event.target.parentNode, todoId);
+    }
+  },
+
   removeTodo: function (el) {
       let todoId = el.parentNode.id;
       todoService.removeTodo(todoId);
       this.render();
   },
+
+  // render one element
   renderFragment: function (el, todo) {
-      el.outerHTML = this.renderItem(todo);
+      el.outerHTML = this.getItemView(todo);
   },
 
-  renderItem: function (todoItem) {
+  getItemView: function (todoItem) {
       let html = "";
 
       let btnText = "complete";
@@ -123,28 +136,28 @@ var todoApp = {
                   </li>
               `;
       }
-
       return html;
   },
 
-  onUpdateTodo: function (event, todoId) {
-    if (event.which == 27) {  // escape key
-      this.toggleEdit(event.target.parentNode, todoId);
-    } else if (event.which == 13) { //enter key
-      todoService.updateTodo(todoId, event.target.value);
-      this.toggleEdit(event.target.parentNode, todoId);
-    }
+  parseHtml: function (html) {
+    var t = document.createElement('template');
+    t.innerHTML = html;
+    return t.content.cloneNode(true);
+  },
+
+  renderItem: function (todo) {
+    var itemView = this.parseHtml(this.getItemView(todo));
+    todoList.appendChild(itemView);
   },
 
   render: function () {
       let html = "";
-
       if (state.todos.length === 0) {
           todoList.innerHTML = "No todos yet! Be awesome and create some todos!!";
           return;
       }
       for (let i = 0;i < state.todos.length; i++) {
-          html += this.renderItem(state.todos[i]);
+          html += this.getItemView(state.todos[i]);
       }
       todoList.innerHTML = html;
   }
