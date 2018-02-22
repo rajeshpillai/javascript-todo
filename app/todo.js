@@ -33,13 +33,17 @@ var todoService = {
         return todo;
     },
     toggleComplete: function (todoId) {
+        let currentTodo;
         let todos = state.todos.map((todo) => {
             if (todo.id == todoId) {
+                currentTodo = todo;
                 todo.status = !todo.status;
             }
             return todo;
         });
         state.todos = [...todos];
+
+        return currentTodo;
     }
 }
 
@@ -59,8 +63,8 @@ var todoApp = {
 
   toggleTodos: function (el) {
       let todoId = el.parentNode.id;
-      todoService.toggleComplete(todoId);
-      this.render();
+      let todo = todoService.toggleComplete(todoId);
+      this.renderFragment(el.parentNode, todo);
   },
 
   toggleEditEvent: function () {
