@@ -7,6 +7,10 @@ var state = {
 };
 
 var todoService = {
+    addTodo: function (newTodo) {
+        newTodo.id = state.todos.length + 1;
+        state.todos = [...state.todos, newTodo];
+    },
     findTodo: function (todoId) {
         let todo = state.todos.find((todo) => {
             return (todo.id == todoId);
@@ -42,13 +46,10 @@ var todoApp = {
   addTodo: function () {
       let todo = todoInput.value;
       let newTodo = {
-          id: state.todos.length + 1,  // This should come from the database
           task: todo,
           status: false
       };
-
-      //state.todos.push(newTodo);
-      state.todos = [...state.todos, newTodo];
+      todoService.addTodo(newTodo);
       this.render();
   },
 
