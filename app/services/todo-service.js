@@ -1,3 +1,11 @@
+var state = {
+    todos: [
+        {id: 1, task: 'Get the training done!',status:true, edit: false},
+        {id: 2, task: 'Ensure everyone including me understands this',status:false, edit:false},
+        {id: 3, task: 'Be happy',status: false, edit: false}
+      ] 
+  };
+  
 var todoService = {
     getAll: function () {
         return state.todos;
