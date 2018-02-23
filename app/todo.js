@@ -9,16 +9,16 @@ var todoApp = {
           status: false
       };
       todoService.addTodo(newTodo);
-      this.renderItem(newTodo);
+      this.appendElement(newTodo);
   },
 
   toggleTodos: function (el) {
       let todoId = el.parentNode.id; // Here 'el' is button.  The parent is the <li> element.
       let todo = todoService.toggleComplete(todoId);
-      this.renderFragment(el.parentNode, todo);
+      this.updateElement(el.parentNode, todo);
   },
 
-  toggleEditEvent: function () {
+  onToggleEdit: function () {
       console.log(event);
       if (event.target.tagName.toLowerCase() !== "li") return;
       let todoId = event.target.id;
@@ -28,7 +28,7 @@ var todoApp = {
 
   toggleEdit: function (target, todoId) {
       let todo = todoService.toggleEdit(todoId);
-      this.renderFragment(target,todo);
+      this.updateElement(target, todo);
   },
 
   onUpdateTodo: function (event, todoId) {
@@ -46,86 +46,86 @@ var todoApp = {
       this.render();
   },
 
-  // Render an updated fragment
-  renderFragment: function (el, todo) {
-      el.outerHTML = this.getItemView(todo);
-  },
-
   // Get html view of single model instance.
   getItemView: function (todoItem) {
       let html = "";
-
+      
       let btnText = "complete";
       let bntUndoRedo = "";
       let btnDelete = `
-          <button type='button' 
-              onclick='todoApp.removeTodo(this)' 
-              class='btn'>remove
-          </button>
+      <button type='button' 
+      onclick='todoApp.removeTodo(this)' 
+      class='btn'>remove
+      </button>
       `;
-
+      
       let todoItemStyle = "";
       let buttonUndoRedoText = "complete";
-
+      
       if (todoItem.status === true) {
           todoItemStyle = "todo-completed";
           buttonUndoRedoText = "undo";
-      }
-
-      // Use Backtick-> found near <esc> key on most keyboards
-      btnUndoRedo = `
-          <button type='button' onclick='todoApp.toggleTodos(this)' 
-                  class='btn'>${buttonUndoRedoText}
-          </button>
-      `;
-
-      html = `
+        }
+        
+        // Use Backtick-> found near <esc> key on most keyboards
+        btnUndoRedo = `
+        <button type='button' onclick='todoApp.toggleTodos(this)' 
+        class='btn'>${buttonUndoRedoText}
+        </button>
+        `;
+        
+        html = `
         <li id=${todoItem.id} class=${todoItemStyle}>
-            ${todoItem.task} ${btnUndoRedo}${btnDelete}
+        ${todoItem.task} ${btnUndoRedo}${btnDelete}
         </li>
-      `;
+        `;
+        
+        if (todoItem.edit) {
+            html = `
+            <li id=${todoItem.id} class=${todoItemStyle}>
+            <input onkeyup="todoApp.onUpdateTodo(event, ${todoItem.id})" 
+            type="text" 
+            value='${todoItem.task}' />
+            ${btnUndoRedo}
+            ${btnDelete}
+            </li>
+            `;
+        }
+        return html;
+    },
+    
+    // Render an updated fragment
+    updateElement: function (el, todo) {
+        el.outerHTML = this.getItemView(todo);
+    },
 
-      if (todoItem.edit) {
-          html = `
-              <li id=${todoItem.id} class=${todoItemStyle}>
-                <input onkeyup="todoApp.onUpdateTodo(event, ${todoItem.id})" 
-                    type="text" 
-                    value='${todoItem.task}' />
-                    ${btnUndoRedo}
-                    ${btnDelete}
-             </li>
-          `;
-      }
-      return html;
-  },
+    // Takes html string->DOM element
+    parseHtml: function (html) {
+        var t = document.createElement('template');
+        t.innerHTML = html;
+        return t.content.cloneNode(true);
+    },
 
-  // Takes html string->DOM element
-  parseHtml: function (html) {
-    var t = document.createElement('template');
-    t.innerHTML = html;
-    return t.content.cloneNode(true);
-  },
+    // Takes model->append to parent view
+    appendElement: function (todo) {
+        var itemView = this.parseHtml(this.getItemView(todo));
+        todoList.appendChild(itemView);
+    },
 
-  // Takes model->append to parent view
-  renderItem: function (todo) {
-    var itemView = this.parseHtml(this.getItemView(todo));
-    todoList.appendChild(itemView);
-  },
+    // Full render
+    render: function () {
+        let html = "";
+        let todos = todoService.getAll();
 
-  // Full render
-  render: function () {
-      let html = "";
-      let todos = todoService.getAll();
-
-      if (todos.length === 0) {
-          todoList.innerHTML = "No todos yet! Be awesome and create some todos!!";
-          return;
-      }
-      for (let i = 0;i < todos.length; i++) {
-          html += this.getItemView(todos[i]);
-      }
-      todoList.innerHTML = html;
-  }
+        if (todos.length === 0) {
+            todoList.innerHTML = "No todos yet! Be awesome and create some todos!!";
+            return;
+        }
+        for (let i = 0;i < todos.length; i++) {
+            html += this.getItemView(todos[i]);
+        }
+        todoList.innerHTML = html;
+    }
 };
 
 todoApp.render();
