@@ -69,25 +69,25 @@ var todoApp = {
         
         // Use Backtick-> found near <esc> key on most keyboards
         btnUndoRedo = `
-        <button type='button' onclick='todoApp.toggleTodos(this)' 
-        class='btn'>${buttonUndoRedoText}
-        </button>
+         <button type='button' onclick='todoApp.toggleTodos(this)' 
+            class='btn'>${buttonUndoRedoText}
+         </button>
         `;
         
         html = `
         <li id=${todoItem.id} class=${todoItemStyle}>
-        ${todoItem.task} ${btnUndoRedo}${btnDelete}
+            ${todoItem.task} ${btnUndoRedo}${btnDelete}
         </li>
         `;
         
         if (todoItem.edit) {
             html = `
             <li id=${todoItem.id} class=${todoItemStyle}>
-            <input onkeyup="todoApp.onUpdateTodo(event, ${todoItem.id})" 
-            type="text" 
-            value='${todoItem.task}' />
-            ${btnUndoRedo}
-            ${btnDelete}
+                <input onkeyup="todoApp.onUpdateTodo(event, ${todoItem.id})" 
+                    type="text" 
+                    value='${todoItem.task}' />
+                ${btnUndoRedo}
+                ${btnDelete}
             </li>
             `;
         }
