@@ -12,8 +12,8 @@ var todoApp = {
       this.appendElement(newTodo);
   },
 
-  toggleTodos: function (el) {
-      let todoId = el.parentNode.id; // Here 'el' is button.  The parent is the <li> element.
+  onToggleTodos: function (el, todoId) {
+      //let todoId = el.parentNode.id; // Here 'el' is button.  The parent is the <li> element.
       let todo = todoService.toggleComplete(todoId);
       this.updateElement(el.parentNode, todo);
   },
@@ -31,6 +31,11 @@ var todoApp = {
       this.updateElement(target, todo);
   },
 
+  // Render an updated fragment
+  updateElement: function (el, todo) {
+    el.outerHTML = this.getItemView(todo);
+  },
+
   onUpdateTodo: function (event, todoId) {
     if (event.which == 27) {  // escape key
       this.toggleEdit(event.target.parentNode, todoId);
@@ -40,10 +45,11 @@ var todoApp = {
     }
   },
 
-  removeTodo: function (el) {
-      let todoId = el.parentNode.id;
+  removeTodo: function (el, todoId) {
+      //let todoId = el.parentNode.id;
       todoService.removeTodo(todoId);
-      this.render();
+      //this.render();
+      this.removeElement(el.parentNode);
   },
 
   // Get html view of single model instance.
@@ -54,8 +60,8 @@ var todoApp = {
       let bntUndoRedo = "";
       let btnDelete = `
       <button type='button' 
-      onclick='todoApp.removeTodo(this)' 
-      class='btn'>remove
+        onclick='todoApp.removeTodo(this, ${todoItem.id})' 
+        class='btn'>remove
       </button>
       `;
       
@@ -69,7 +75,7 @@ var todoApp = {
         
         // Use Backtick-> found near <esc> key on most keyboards
         btnUndoRedo = `
-         <button type='button' onclick='todoApp.toggleTodos(this)' 
+         <button type='button' onclick='todoApp.onToggleTodos(this, ${todoItem.id})' 
             class='btn'>${buttonUndoRedoText}
          </button>
         `;
@@ -93,11 +99,6 @@ var todoApp = {
         }
         return html;
     },
-    
-    // Render an updated fragment
-    updateElement: function (el, todo) {
-        el.outerHTML = this.getItemView(todo);
-    },
 
     // Takes html string->DOM element
     parseHtml: function (html) {
@@ -106,6 +107,10 @@ var todoApp = {
         return t.content.cloneNode(true);
     },
 
+    removeElement: function (el,todo) {
+        console.log("remove: ", el);
+        todoList.removeChild(el);
+    },
     // Takes model->append to parent view
     appendElement: function (todo) {
         var itemView = this.parseHtml(this.getItemView(todo));
