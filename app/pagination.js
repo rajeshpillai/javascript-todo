@@ -21,6 +21,7 @@ var pagination = {
     },
     gotoPage: function (pageNo) {
         let pagedData = todoService.getPagedData(pageNo, this.pageLength);
+        console.log("page: ", pagedData);
         todoApp.render(pagedData);
     }
 }

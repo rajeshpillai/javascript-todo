@@ -133,4 +133,4 @@ var todoApp = {
     }
 };
 
-todoApp.render(todoService.getAll());
+todoApp.render(todoService.getPagedData(1,10));
