@@ -1,12 +1,14 @@
 Lets build a simple todo application purely javascript
 ---------------------------------------------------------
 
+* Pagination in progress
+
 Phase 1:
 --------------
 X Use Case 1:  Show all todos
 X Use Case 2:  Create a new todo
 X Use Case 3:  Mark todo for completion
-Use Case 4:  Delete a todo
+X Use Case 4:  Delete a todo
 
 
 Phase 2:
