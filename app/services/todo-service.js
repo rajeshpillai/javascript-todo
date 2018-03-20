@@ -5,13 +5,25 @@ var state = {
         {id: 3, task: 'Be happy',status: false, edit: false}
       ] 
   };
+
+// Lets create some sample tasks
+for(let i = 4; i <= 50; i++) {
+    state.todos.push({
+        id: i,
+        task: "Some random task " + i,
+        status: false,
+        edit: false
+    })
+}
   
 var todoService = {
     getAll: function () {
         return state.todos;
     },
     addTodo: function (newTodo) {
-        newTodo.id = state.todos.length + 1;
+        let maxId = Math.max.apply(Math, state.todos.map((todo)=>{return todo.id}));
+        //newTodo.id = state.todos.length + 1;  // Not a good practice to create ID
+        newTodo.id = maxId + 1;
         state.todos = [...state.todos, newTodo];
     },
     updateTodo: function (todoId, value) {
@@ -47,5 +59,11 @@ var todoService = {
         state.todos = [...todos];
 
         return currentTodo;
+    },
+    getPagedData: function (pageNo, pageLength) {
+        let startPage = (pageNo-1)*pageLength;
+        let end = startPage + pageLength;
+        let pagedData = state.todos.slice(startPage,end);
+        return pagedData;
     }
 }

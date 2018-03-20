@@ -118,9 +118,9 @@ var todoApp = {
     },
 
     // Full render
-    render: function () {
+    render: function (todos) {
         let html = "";
-        let todos = todoService.getAll();
+        //let todos = todoService.getAll();
 
         if (todos.length === 0) {
             todoList.innerHTML = "No todos yet! Be awesome and create some todos!!";
@@ -133,4 +133,4 @@ var todoApp = {
     }
 };
 
-todoApp.render();
+todoApp.render(todoService.getAll());
