@@ -54,6 +54,7 @@ var todoApp = {
       this.removeElement(el.parentNode);
 
       pagination.render();
+      pagination.gotoLastPage();
   },
 
   // Get html view of single model instance.
