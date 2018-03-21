@@ -10,6 +10,8 @@ var todoApp = {
       };
       todoService.addTodo(newTodo);
       this.appendElement(newTodo);
+
+      pagination.render();
   },
 
   onToggleTodos: function (el, todoId) {
@@ -50,6 +52,8 @@ var todoApp = {
       todoService.removeTodo(todoId);
       //this.render();
       this.removeElement(el.parentNode);
+
+      pagination.render();
   },
 
   // Get html view of single model instance.

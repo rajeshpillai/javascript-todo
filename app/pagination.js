@@ -5,12 +5,13 @@ var pagination = {
     pageLength: 10,
     totalRecords: 50,
     render: function () {
+        this.totalRecords = todoService.getTodosCount();
+        console.log(`Paging ${this.totalRecords}`);
         let pages = this.totalRecords / this.pageLength;
         let buttons = '';
         for(let i = 1; i <= pages; i++) {
             buttons += this.getButton(i);
         }
-
         el.innerHTML = buttons;
     },
     getButton: function (text) {

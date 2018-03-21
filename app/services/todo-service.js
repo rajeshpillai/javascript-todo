@@ -65,5 +65,8 @@ var todoService = {
         let end = startPage + pageLength;
         let pagedData = state.todos.slice(startPage,end);
         return pagedData;
+    },
+    getTodosCount: function () {
+        return state.todos.length;
     }
 }
