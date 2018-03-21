@@ -47,3 +47,13 @@ body {
   background-color: skyblue;
   color: black;
 }
+
+.pagination-btn .first .last {
+  background-color: lightcoral;
+  color: black;
+}
+
+.pagination-btn .next .prev {
+  background-color: lightcoral;
+  color: black;
+}
