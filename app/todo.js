@@ -137,4 +137,4 @@ var todoApp = {
     }
 };
 
-todoApp.render(todoService.getPagedData(1,10));
+todoApp.render(todoService.getPagedData(1,pagination.pageLength));
