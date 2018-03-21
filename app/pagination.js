@@ -39,17 +39,21 @@ var pagination = {
         return html;
     },
     prev: function (btn) {
+        if (this.currentPage == 1) return;
         this.currentPage = this.currentPage - 1;
-        this.currentPage = this.currentPage < 1 ? 1 : this.currentPage;
         let currentPageBtn = document.getElementById(`btn-${this.currentPage}`);
+        //todo: fix as button is undefined sometime when add/remove elems
+        if (!currentPageBtn) {
+            return; // if no page, return
+        } 
         this.gotoPage(currentPageBtn, this.currentPage);
     },
 
     next: function (btn) {
+        if (this.currentPage > this.pages-1) return;
         this.currentPage = this.currentPage  + 1;
-        this.currentPage = this.currentPage > this.pages ? this.pages
-             : this.currentPage;
         let currentPageBtn = document.getElementById(`btn-${this.currentPage}`);
+        if (!currentPageBtn) return;
         this.gotoPage(currentPageBtn, this.currentPage);
     },
 
