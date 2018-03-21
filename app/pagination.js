@@ -7,7 +7,7 @@ var pagination = {
     render: function () {
         this.totalRecords = todoService.getTodosCount();
         console.log(`Paging ${this.totalRecords}`);
-        let pages = this.totalRecords / this.pageLength;
+        let pages = Math.ceil(this.totalRecords / this.pageLength);
         this.pages = pages;
         let buttons = '';
         buttons += `
@@ -57,6 +57,12 @@ var pagination = {
         this.gotoPage(currentPageBtn, this.currentPage);
     },
 
+    gotoLastPage: function () {
+        this.currentPage = this.pages;
+        let currentPageBtn = document.getElementById(`btn-${this.currentPage}`);
+        this.gotoPage(currentPageBtn, this.currentPage);
+    },
+
     gotoPage: function (btn,pageNo) {
         console.log(btn);
         this.currentPage = pageNo;
@@ -67,7 +73,6 @@ var pagination = {
         btn.classList.add("current-page");
 
         let pagedData = todoService.getPagedData(pageNo, this.pageLength);
-        console.log("page: ", pagedData);
         todoApp.render(pagedData);
     }
 }

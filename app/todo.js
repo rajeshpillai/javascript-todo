@@ -10,8 +10,8 @@ var todoApp = {
       };
       todoService.addTodo(newTodo);
       this.appendElement(newTodo);
-
       pagination.render();
+      pagination.gotoLastPage();
   },
 
   onToggleTodos: function (el, todoId) {
