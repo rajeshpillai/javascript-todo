@@ -16,11 +16,18 @@ var pagination = {
     },
     getButton: function (text) {
         let html = `
-            <button type="button" onclick="pagination.gotoPage(${text})">${text}</button>
+            <button class="pagination-btn" type="button" onclick="pagination.gotoPage(this,${text})">${text}</button>
         `;
         return html;
     },
-    gotoPage: function (pageNo) {
+    gotoPage: function (btn,pageNo) {
+        console.log(btn);
+        let paginationButtons = document.querySelectorAll(".pagination-btn");
+        for (let i = 0; i < paginationButtons.length; i++) {
+            paginationButtons[i].classList.remove("current-page");
+        }
+        btn.classList.add("current-page");
+
         let pagedData = todoService.getPagedData(pageNo, this.pageLength);
         console.log("page: ", pagedData);
         todoApp.render(pagedData);
